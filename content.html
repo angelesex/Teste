@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <script type="text/javascript" src="//d3pmwrlxrkpju5.cloudfront.net/plugins/jquery/jquery.min.js"></script>
+    <style type="text/css">
+        .initial {
+            width: 100px;
+            height: 100px;
+            background-color: green;
+        }
+
+        .expand {
+            width: 300px;
+            height: 200px;
+            background-color: red;
+        }
+    </style>
+    <script type="text/javascript">
+        function expand(el) {
+            $(el).toggleClass("initial").toggleClass("expand");
+            resizeInsideFrame1();
+        }
+        function resizeInsideFrame1() {
+            var _frame;
+            try {
+                var _parent = window.parent.document;
+                var _id = window.name;
+                _frame = $(_parent).find("#frame1chat")[0];
+            } catch (e) {
+                alert('nao foi possivel localizar o iframe');
+            }
+
+            var h = 0;
+            _frame.style.height = h + 'px';
+            try {
+                h = _frame.contentWindow.document.body.scrollHeight;
+            } catch (e) {
+                //não conseguimos acessar o height do iframe
+            }
+            if (h != 0) {
+                _frame.style.height = h + 'px';
+            } else {
+                _frame.style.height = screen.availHeight + 'px';
+            }
+
+
+            var w = 0;
+            _frame.style.width = w + 'px';
+            try {
+                w = _frame.contentWindow.document.body.scrollWidth;
+            } catch (e) {
+                //não conseguimos acessar o height do iframe
+            }
+            if (w != 0) {
+                _frame.style.width = w + 'px';
+            } else {
+                _frame.style.width = screen.availWidth + 'px';
+            }
+            console.log("w: " + w);
+        }
+
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="initial" onclick="expand(this);">
+        </div>
+    </form>
+</body>
+</html>
